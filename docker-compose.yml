@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:1.21.0-alpine
+    volumes:
+      - ./templates:/etc/nginx/templates
+      - ./.secret/certbot/conf:/etc/letsencrypt
+      - ./.secret/certbot/lib:/var/lib/letsencrypt
+      - ./.secret/certbot/www:/var/www/certbot
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - NGINX_SERVER_NAME=coops.tnraro.com
+  web:
+    command: yarn web start
+    image: ghcr.io/hoshi-hitsuji/coops_web:latest
+    working_dir: /app
+    env_file: "./services/web/.env.local"
+  sse:
+    command: node ./services/sse/dist/index.js
+    image: ghcr.io/hoshi-hitsuji/coops_sse:latest
+  peer:
+    image: peerjs/peerjs-server
+    command: --port 9000 --path /peer
+  redis:
+    image: redis:6.2.3-alpine

@@ -9,9 +9,8 @@
       "dockerCompose": {
         "up": {
           "detached": true,
-          "build": true
-        },
-        "files": ["${workspaceFolder}/docker/coops-dev/docker-compose.yml"]
+          "build": false
+        }
       }
     },
     {
@@ -20,9 +19,8 @@
       "dockerCompose": {
         "down": {
           "detached": true,
-          "build": true
-        },
-        "files": ["${workspaceFolder}/docker/coops-dev/docker-compose.yml"]
+          "build": false
+        }
       }
     },
     {
